@@ -1,0 +1,13 @@
+# Generated output
+.scrapes/*
+.listing/*
+.search/*
+.hunt-reports/*
+.hunt-state.json
+resume/*
+
+# Firecrawl output
+.firecrawl/
+
+# Node
+node_modules/
