@@ -23,6 +23,7 @@ An AI-powered job search orchestrator built on the [pi](https://github.com/earen
 - **LaTeX-based resume generation** — produces professional PDFs from LaTeX templates
 - **Hunt reports** — generates detailed summaries after each search run
 - **Persistent state** — tracks discovered listings and avoids duplicates across hunts
+- **Warm introduction finder** — discovers contacts at target companies who can provide warm introductions via LinkedIn
 
 ---
 
@@ -242,6 +243,51 @@ Once pi is running, you can initiate a job hunt:
 /companies  # View, add, deactivate companies
 ```
 
+### Find warm introductions
+
+The warm-intro extension discovers people at your target companies who can provide warm introductions. It uses the Crustdata API to find contacts based on your LinkedIn profile.
+
+**Basic usage:**
+```
+Find warm intro contacts at Stripe
+```
+
+**With explicit company URL:**
+```
+Find warm introductions at https://www.linkedin.com/company/stripe
+```
+
+**Output format (JSON):**
+```json
+{
+  "success": true,
+  "me": { "name": "...", "headline": "...", "linkedinUrl": "..." },
+  "company": { "name": "Stripe", "linkedinUrl": "..." },
+  "contacts": [
+    {
+      "name": "John Doe",
+      "currentRole": "Senior Engineer",
+      "matchScore": 8,
+      "confidence": "strong",
+      "isStrongMatch": true,
+      "linkedinUrl": "...",
+      "matchReasons": ["Both in engineering"]
+    }
+  ],
+  "summary": {
+    "totalContacts": 5,
+    "strongMatches": 2,
+    "averageMatchScore": 6.5
+  }
+}
+```
+
+**Key fields:**
+- `matchScore` (0-10): How strong the potential connection is
+- `confidence`: `"strong"` or `"soft"` — reliability of the match
+- `isStrongMatch`: Boolean shortcut for filtering
+- `matchReasons`: Why this person is a good match
+
 ### Generate ATS resume
 
 The ATS resume writer agent tailors your base resume to match specific job descriptions. It rewrites bullet points with action verbs and metrics, reorders skills to match JD keywords, and adds/removes sections as needed — all while preserving your resume's formatting and structure.
@@ -336,7 +382,8 @@ jobhunt-agent/
 │   │   └── ats-resume-writer.md  # Resume tailoring agent
 │   ├── extensions/               # Custom extensions
 │   │   ├── job-tracker.ts        # Portal/company management
-│   │   └── lightpanda/           # Browser automation
+│   │   ├── lightpanda/           # Browser automation
+│   │   └── warm-intro.ts         # Warm introduction finder
 │   ├── skills/                   # Skill definitions
 │   │   ├── firecrawl/            # Web search/scraping
 │   │   ├── google-search-filters/# Advanced search queries
@@ -379,6 +426,7 @@ jobhunt-agent/
 |-----------|-------------|
 | `job-tracker` | Manages portals (PORTALS.json) and companies (COMPANY_CARRIER.json) via tools |
 | `lightpanda` | Headless browser for interactive web browsing |
+| `warm-intro` | Finds warm introduction contacts at target companies via Crustdata API (returns JSON) |
 
 ### Agents
 
