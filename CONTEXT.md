@@ -44,3 +44,41 @@ The `ats-resume-writer` subagent that tailors the base resume to a specific job 
 **ATS resume**:
 A resume tailored to pass Applicant Tracking System (ATS) parsing, optimized with job description keywords, action verbs, and quantified metrics. Stored at `resume/{listing_id}/resume.tex` with a compiled `resume/{listing_id}/resume.pdf`.
 _Avoid_: Tailored resume, optimized CV, custom resume
+
+## Outreach
+
+**Outreach message**:
+A structured professional message composed by the `outreach-writer` subagent, sent to initiate or follow up on career-related communication with a target person.
+_Avoid_: Cold DM, cold email, pitch
+
+**Referral request**:
+A type of outreach asking someone at a target company to refer the job seeker to a specific open role. Acknowledges the social capital being asked for and makes the ask easy (includes resume, JD link).
+_Avoid_: Referral ask, referral ping
+
+**HR pitch**:
+A type of outreach pitching the job seeker's profile directly to a recruiter or HR professional. Confident and concise, focused on value proposition and role fit.
+_Avoid_: Recruiter spam, cold pitch
+
+**Follow-up**:
+A type of outreach sent after an interview, application, or prior conversation to express gratitude, reiterate interest, and prompt a next step.
+_Avoid_: Reminder, nudge, chasing up
+
+**Interview request**:
+A type of outreach asking for a conversation with someone. Has two sub-types: _informational_ (low-pressure ask to learn about their experience) and _job-interview_ (direct ask for a formal interview after applying).
+_Avoid_: Coffee chat request, meeting request, catch-up
+
+**Outreach writer**:
+The `outreach-writer` pi subagent that composes personalized outreach messages. Takes structured input (purpose, person, context, tone, channel) and returns structured JSON output with an opener, body, suggestions, and platform notes. Uses per-type prompting strategies and may optionally scrape LinkedIn profiles for personalization.
+_Avoid_: DM composer, outreach generator
+
+**Opener**:
+The first line of an outreach message designed to catch attention. On LinkedIn it appears as a bold first line; in email it serves as the subject line. Must be relevant and contextual, never generic.
+_Avoid_: Subject line, hook, intro line
+
+**Channel**:
+The platform through which an outreach message is delivered. Determines the output format: LinkedIn DM (no formal subject, bold opener) vs email (subject line + body + signature).
+_Avoid_: Platform, medium
+
+**Person relation**:
+The known connection type between the job seeker and the target person. One of: stranger, alumni, mutual-connection, acquaintance, or interviewer. Affects the message's tone, reference points, and level of formality.
+_Avoid_: Connection type, relationship
